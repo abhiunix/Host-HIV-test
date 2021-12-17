@@ -3,6 +3,16 @@
 #Date: 12 Dec 2021
 #Twitter: https://twitter.com/abhiunix
 
+function toolsCheck(){
+    if [ -x "$(which httpx)" ] ; then
+    	echo ""
+    else
+        echo "Could not find httpx, please install it from here https://github.com/projectdiscovery/httpx" >&2
+        echo "If you are on *nix then run this command: go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest"
+        exit
+    fi
+}
+
 function functionu(){
 echo ""
 echo "Testing for Host Header injection vulnerability on $uo"
@@ -33,6 +43,7 @@ if (( $# < 1 )); then
      echo "Try using valid options. Use -h to show help menu."
      exit  
 fi
+toolsCheck
 while getopts u:U:hc options; do
 		case $options in
 				u) uo=$OPTARG;;
@@ -46,7 +57,7 @@ while getopts u:U:hc options; do
 		elif [[ $options = "U" ]]; then
 			echo "Checking if the supplied list of URLs are working fine."
 			sleep 3
-			cat ./$2 | httpx | tee $2.urls
+			cat $2 | httpx | tee $2.urls
 			echo ""
 			sleep 1
 			echo "Nice!! We have collected the working urls in $2.urls file."
