@@ -76,8 +76,6 @@ while getopts u:U:hc options; do
 		        echo "Sorry, no URL seems to be vulnerable. Better luck next time!!."
 			fi
 
-
-
 			echo "Finished the URLs"
 
 		elif [[ $options = "h" ]]; then
